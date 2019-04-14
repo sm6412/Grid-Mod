@@ -11,9 +11,12 @@ public class GridMaker : MonoBehaviour
     public const int width = 5;
     public const int height = 7;
 
+    public float first = 2f;
+    public float second = 0.5f;
+
     // offset of x and y
-    public float xOffset = width / 2f - 0.5f;
-    public float yOffset = height / 2f - 0.5f;
+    public float xOffset;
+    public float yOffset;
 
     // two dimensional array 
     public GameObject[,] tiles;
@@ -30,9 +33,11 @@ public class GridMaker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+         xOffset = width / first - second;
+         yOffset = height / first - second;
 
-        // instantiates the 2d array 
-        tiles = new GameObject[width, height];
+    // instantiates the 2d array 
+    tiles = new GameObject[width, height];
         tileVals = new int[width, height];
 
         gridHolder = new GameObject();

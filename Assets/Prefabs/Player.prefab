@@ -200,4 +200,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451d8177f9eb34b4789526df0024ed34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite1: {fileID: 0}
+  sprite2: {fileID: 0}
+  sprite3: {fileID: 0}
+  sprite4: {fileID: 0}
+  sprite5: {fileID: 0}
+  sprite6: {fileID: 0}
   type: 0

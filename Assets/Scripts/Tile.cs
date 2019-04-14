@@ -5,6 +5,13 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     // type represents tile color
+    public Sprite sprite1;
+    public Sprite sprite2;
+    public Sprite sprite3;
+    public Sprite sprite4;
+    public Sprite sprite5;
+    public Sprite sprite6;
+
     public int type;
 
     // set tile color
@@ -13,35 +20,27 @@ public class Tile : MonoBehaviour
         type = rand;
         if (type == 0)
         {
-            GetComponent<SpriteRenderer>().color = Color.red;
+            GetComponent<SpriteRenderer>().sprite = sprite1;
         }
         else if (type == 1)
         {
-            GetComponent<SpriteRenderer>().color = Color.blue;
+            GetComponent<SpriteRenderer>().sprite = sprite2;
         }
         else if (type == 2)
         {
-            GetComponent<SpriteRenderer>().color = Color.green;
+            GetComponent<SpriteRenderer>().sprite = sprite3;
         }
         else if (type == 3)
         {
-            GetComponent<SpriteRenderer>().color = Color.yellow;
+            GetComponent<SpriteRenderer>().sprite = sprite4;
         }
-        // orange
         else if (type == 4)
         {
-            Color newColor;
-            string hexString = "#ff6600";
-            ColorUtility.TryParseHtmlString(hexString, out newColor);
-            GetComponent<SpriteRenderer>().color = newColor;
+            GetComponent<SpriteRenderer>().sprite = sprite5;
         }
-        // purple
         else if (type == 5)
         {
-            Color newColor;
-            string hexString = "#cc33ff";
-            ColorUtility.TryParseHtmlString(hexString, out newColor);
-            GetComponent<SpriteRenderer>().color = newColor;
+            GetComponent<SpriteRenderer>().sprite = sprite6;
         }
 
 
