@@ -77,7 +77,7 @@ public class GridMaker : MonoBehaviour
 
         Tile tileScript = newTile.GetComponent<Tile>();
 
-        int randomVal = Random.Range(0, 6);
+        int randomVal = Random.Range(0, 24);
         tileScript.SetSprite(randomVal);
 
     }

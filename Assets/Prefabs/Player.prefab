@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eaa53cfcfece6d408841eb7c0dc8d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveNum: 6
+  moveNum: 50
   moves: {fileID: 1997738354845960696}
   canMove: 1
 --- !u!114 &1344539444476455184
@@ -206,4 +206,24 @@ MonoBehaviour:
   sprite4: {fileID: 0}
   sprite5: {fileID: 0}
   sprite6: {fileID: 0}
+  sprite7: {fileID: 0}
+  sprite8: {fileID: 0}
+  sprite9: {fileID: 0}
+  sprite10: {fileID: 0}
+  sprite11: {fileID: 0}
+  sprite12: {fileID: 0}
+  sprite13: {fileID: 0}
+  sprite14: {fileID: 0}
+  sprite15: {fileID: 0}
+  sprite16: {fileID: 0}
+  sprite17: {fileID: 0}
+  sprite18: {fileID: 0}
+  sprite19: {fileID: 0}
+  sprite20: {fileID: 0}
+  sprite21: {fileID: 0}
+  sprite22: {fileID: 0}
+  sprite23: {fileID: 0}
+  sprite24: {fileID: 0}
+  sprite25: {fileID: 0}
   type: 0
+  group: 0

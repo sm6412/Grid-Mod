@@ -14,13 +14,17 @@ public class GameManager : MonoBehaviour
     // get ref to gridmaker script 
     private GridMaker gm;
 
+    // get ref to the progress controller script
+    private ProgressController progressController;
+
     // have to lists to hold matches along the
     // x and y axis 
     List<List<int>> matchPosX;
     List<List<int>> matchPosY;
 
     // current tile color you compare to 
-    int currentColor;
+    int currentGroup;
+    int currentSpecies;
 
     // lerp variables 
     public float lerpSpeed;
@@ -29,7 +33,7 @@ public class GameManager : MonoBehaviour
     public GameObject particles;
 
     // score information
-    int scoreNum = 0;
+    public int scoreNum = 0;
     public Text scoreStr;
 
     // grid recheck variables
@@ -37,6 +41,8 @@ public class GameManager : MonoBehaviour
     bool foundMatches = false;
 
     bool isLerping = false;
+
+    int[] numOfEachSpecies; 
 
 
 
@@ -49,6 +55,7 @@ public class GameManager : MonoBehaviour
         Instantiate(Player);
 
         gm = GameObject.Find("Game Manager").GetComponent<GridMaker>();
+        progressController = GameObject.Find("Progress Arrow").GetComponent<ProgressController>();
         
     }
 
@@ -64,11 +71,11 @@ public class GameManager : MonoBehaviour
                 {
                     GameObject currentTile = gm.tiles[x, y];
                     Tile currentTileScript = currentTile.GetComponent<Tile>();
-                    currentColor = currentTileScript.type;
+                    currentGroup = currentTileScript.group;
                     int randomVal = Random.Range(0, 6);
                     
                     // make sure tile gets a new color
-                    while(randomVal == currentColor)
+                    while(randomVal == currentGroup)
                     {
                         randomVal = Random.Range(0, 6);
                     }
@@ -116,7 +123,7 @@ public class GameManager : MonoBehaviour
         // currrent tile info
         GameObject currentTile = gm.tiles[x, y];
         Tile currentTileScript = currentTile.GetComponent<Tile>();
-        currentColor = currentTileScript.type;
+        currentGroup = currentTileScript.group;
 
         // check left tiles
         if ((x != (gm.getWidth() - 1)))
@@ -187,7 +194,8 @@ public class GameManager : MonoBehaviour
         // currrent tile info
         GameObject currentTile = gm.tiles[x, y];
         Tile currentTileScript = currentTile.GetComponent<Tile>();
-        currentColor = currentTileScript.type;
+        currentGroup = currentTileScript.group;
+        currentSpecies = currentTileScript.type;
 
         // check left tiles
         if ((x != (gm.getWidth()-1)))
@@ -379,9 +387,9 @@ public class GameManager : MonoBehaviour
         }
 
         Tile tileScript = newTile.GetComponent<Tile>();
-        int color = tileScript.type;
+        int group = tileScript.group;
 
-        if (currentColor == color)
+        if (currentGroup == group)
         {
             matchColor.Add(x);
             matchColor.Add(y);
@@ -408,6 +416,9 @@ public class GameManager : MonoBehaviour
     // removes matches from grid
     public void RemoveMatches(int x, int y)
     {
+        // reset list that holds all the species 
+        resetNumOfEachSpecies();
+
         Vector2 pos; 
         if (matchPosY.Count >= 2)
         {
@@ -418,6 +429,14 @@ public class GameManager : MonoBehaviour
                 List<int> currentTile = matchPosY[i];
                 int row = currentTile[0];
                 int col = currentTile[1];
+                
+                // determine whether the same species or not
+                GameObject newTile = gm.tiles[row, col];
+                Tile tileScript = newTile.GetComponent<Tile>();
+                int species = tileScript.type;
+                numOfEachSpecies[species]++;
+
+
                 pos = gm.tiles[row, col].transform.position;
                 Destroy(gm.tiles[row,col]);
                 gm.tiles[row, col] = null;
@@ -425,9 +444,6 @@ public class GameManager : MonoBehaviour
                 // emit particles
                 (Instantiate(particles)).transform.position = pos;
 
-                // increase score
-                scoreNum++;
-                scoreStr.text = scoreNum.ToString();
             }
         }
 
@@ -440,16 +456,21 @@ public class GameManager : MonoBehaviour
                 List<int> currentTile = matchPosX[i];
                 int row = currentTile[0];
                 int col = currentTile[1];
+
+                 // determine whether the same species or not
+                GameObject newTile = gm.tiles[row, col];
+                Tile tileScript = newTile.GetComponent<Tile>();
+                int species = tileScript.type;
+                numOfEachSpecies[species]++;
+
+
+
                 pos = gm.tiles[row, col].transform.position;
                 Destroy(gm.tiles[row, col]);
                 gm.tiles[row, col] = null;
 
                 // emit particles
                 (Instantiate(particles)).transform.position = pos;
-
-                // increase score
-                scoreNum++;
-                scoreStr.text = scoreNum.ToString();
 
             }
 
@@ -463,12 +484,39 @@ public class GameManager : MonoBehaviour
         // emit particles
         (Instantiate(particles)).transform.position = pos;
 
-        // increase score 
-        scoreNum++;
-        scoreStr.text = scoreNum.ToString();
+        // increase score and check for duplicate species
+        numOfEachSpecies[currentSpecies]++;
+        IncrementScore();
+    }
 
-        // reset move number
-        GameObject.Find("Player(Clone)").GetComponent<PlayerController>().resetMoves();
+    void resetNumOfEachSpecies()
+    {
+        numOfEachSpecies = new int[25];
+        for (int i = 0; i < 25; i++)
+        {
+            numOfEachSpecies[i] = 0;
+        }
+    }
+
+    void IncrementScore()
+    {
+        for (int i = 0; i < 25; i++)
+        {
+            int currentNumOfSpecies = numOfEachSpecies[i];
+            if (currentNumOfSpecies > 1)
+            {
+                scoreNum += currentNumOfSpecies * 2;
+            }
+            else if(currentNumOfSpecies == 1)
+            {
+                scoreNum++;
+            }
+        }
+
+        scoreStr.text = scoreNum.ToString();
+        // make progress controller move up
+        progressController.AdjustProgress(scoreNum);
+
     }
 }
 

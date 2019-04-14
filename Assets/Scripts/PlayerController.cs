@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     int matrixY;
 
     // amount of moves player can make
-    public int moveNum = 6;
+    public int moveNum;
     // ref to text that displays moves 
     public TextMesh moves;
 
@@ -164,12 +164,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // reset number of available moves
-    public void resetMoves()
-    {
-        moveNum = 6;
-        moves.text = moveNum.ToString();
-    }
 
 
     // turns movement on and off
