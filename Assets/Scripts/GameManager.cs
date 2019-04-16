@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     // get ref to the progress controller script
     private ProgressController progressController;
 
+    // get ref to the species tracker script
+    private SpeciesTracker st;
+
     // have to lists to hold matches along the
     // x and y axis 
     List<List<int>> matchPosX;
@@ -42,7 +45,8 @@ public class GameManager : MonoBehaviour
 
     bool isLerping = false;
 
-    int[] numOfEachSpecies; 
+    int[] numOfEachSpecies;
+    
 
 
 
@@ -54,9 +58,9 @@ public class GameManager : MonoBehaviour
         Instance = this;
         Instantiate(Player);
 
-        gm = GameObject.Find("Game Manager").GetComponent<GridMaker>();
+        gm = GameObject.Find("Grid Maker").GetComponent<GridMaker>();
         progressController = GameObject.Find("Progress Arrow").GetComponent<ProgressController>();
-        
+        st = GameObject.Find("Species Tracker").GetComponent<SpeciesTracker>();
     }
 
     // function checks to find and eliminate matches in the starting grid
@@ -435,6 +439,7 @@ public class GameManager : MonoBehaviour
                 Tile tileScript = newTile.GetComponent<Tile>();
                 int species = tileScript.type;
                 numOfEachSpecies[species]++;
+                st.updateSpecies(species);
 
 
                 pos = gm.tiles[row, col].transform.position;
@@ -462,6 +467,7 @@ public class GameManager : MonoBehaviour
                 Tile tileScript = newTile.GetComponent<Tile>();
                 int species = tileScript.type;
                 numOfEachSpecies[species]++;
+                st.updateSpecies(species);
 
 
 
@@ -486,6 +492,7 @@ public class GameManager : MonoBehaviour
 
         // increase score and check for duplicate species
         numOfEachSpecies[currentSpecies]++;
+        st.updateSpecies(currentSpecies);
         IncrementScore();
     }
 

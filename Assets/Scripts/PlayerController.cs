@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // ref to grid maker 
-        gm = GameObject.Find("Game Manager").GetComponent<GridMaker>();
+        gm = GameObject.Find("Grid Maker").GetComponent<GridMaker>();
 
         // initialize player position
         this.transform.parent = gm.gridHolder.transform;
