@@ -32,14 +32,13 @@ public class PlayerController : MonoBehaviour
         gm = GameObject.Find("Grid Maker").GetComponent<GridMaker>();
 
         // initialize player position
-        this.transform.parent = gm.gridHolder.transform;
-        xPos = gm.getWidth() - 2 - gm.xOffset;
-        yPos = gm.getHeight() - 3 - gm.yOffset;
+        this.transform.position = gm.tiles[2,2].transform.position;
+
         matrixX = 2;
-        matrixY = 3;
-        this.transform.localPosition = new Vector2(xPos,yPos);
-        gm.tiles[2, 3] = this.gameObject;
+        matrixY = 2;
+        gm.tiles[2, 2] = this.gameObject;
         moves.text = moveNum.ToString();
+  
     }
 
     // Update is called once per frame
@@ -54,35 +53,36 @@ public class PlayerController : MonoBehaviour
         // move player and determine switches
         if (canMove==true && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && ((matrixY+1)<gm.getHeight()))
         {
+
+            switchDown();
             moveNum--;
             moves.text = moveNum.ToString();
-            switchDown();
         }
         else if (canMove==true && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && ((matrixY - 1) >= 0))
         {
-            moveNum--;
-            moves.text = moveNum.ToString();
+
             switchUp();
-        }
-        else if (canMove == true && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && ((matrixX - 1) >= 0))
-        {
             moveNum--;
             moves.text = moveNum.ToString();
+        }
+        else if (canMove == true && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && ((matrixX + 1) < gm.getWidth()))
+        {
             switchRight();
-        }
-        else if (canMove == true && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && ((matrixX + 1) < gm.getWidth()))
-        {
             moveNum--;
             moves.text = moveNum.ToString();
+        }
+        else if (canMove == true && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && ((matrixX - 1) >= 0))
+        {
             switchLeft();
+            moveNum--;
+            moves.text = moveNum.ToString();
         }
     }
 
     // update player position
     public void updatePlayerPos(int x, int y)
     {
-        xPos = gm.getWidth() - x - gm.xOffset;
-        yPos = gm.getHeight() - y - gm.yOffset;
+
         matrixX = x;
         matrixY = y;
 
@@ -92,15 +92,15 @@ public class PlayerController : MonoBehaviour
     void switchDown()
     {
         GameObject tileToSwitch = gm.tiles[matrixX,matrixY+1];
+        Vector2 tempPos = tileToSwitch.transform.position;
         int xToCheck = matrixX;
         int yToCheck = matrixY;
 
-        tileToSwitch.transform.localPosition = new Vector2(xPos, yPos);
+        tileToSwitch.transform.localPosition = this.transform.position;
         gm.tiles[matrixX, matrixY] = tileToSwitch;
 
         matrixY += 1;
-        yPos = gm.getHeight() - matrixY - gm.yOffset;
-        this.transform.localPosition = new Vector2(xPos, yPos);
+        this.transform.localPosition = tempPos;
         gm.tiles[matrixX, matrixY] = this.gameObject;
 
         GameManager.Instance.switchMatchCheck(xToCheck, yToCheck);
@@ -110,15 +110,15 @@ public class PlayerController : MonoBehaviour
     void switchUp()
     {
         GameObject tileToSwitch = gm.tiles[matrixX, matrixY - 1];
+        Vector2 tempPos = tileToSwitch.transform.position;
         int xToCheck = matrixX;
         int yToCheck = matrixY;
 
-        tileToSwitch.transform.localPosition = new Vector2(xPos, yPos);
+        tileToSwitch.transform.localPosition = this.transform.position;
         gm.tiles[matrixX, matrixY] = tileToSwitch;
 
         matrixY -= 1;
-        yPos = gm.getHeight() - matrixY - gm.yOffset;
-        this.transform.localPosition = new Vector2(xPos, yPos);
+        this.transform.localPosition = tempPos;
         gm.tiles[matrixX, matrixY] = this.gameObject;
 
         // check for matches
@@ -129,16 +129,16 @@ public class PlayerController : MonoBehaviour
     // switch player with the tile to the right of it
     void switchRight()
     {
-        GameObject tileToSwitch = gm.tiles[matrixX - 1, matrixY];
+        GameObject tileToSwitch = gm.tiles[matrixX + 1, matrixY];
+        Vector2 tempPos = tileToSwitch.transform.position;
         int xToCheck = matrixX;
         int yToCheck = matrixY;
 
-        tileToSwitch.transform.localPosition = new Vector2(xPos, yPos);
+        tileToSwitch.transform.localPosition = this.transform.position;
         gm.tiles[matrixX, matrixY] = tileToSwitch;
 
-        matrixX -= 1;
-        xPos = gm.getWidth() - matrixX - gm.xOffset;
-        this.transform.localPosition = new Vector2(xPos, yPos);
+        matrixX += 1;
+        this.transform.localPosition = tempPos;
         gm.tiles[matrixX, matrixY] = this.gameObject;
 
         GameManager.Instance.switchMatchCheck(xToCheck, yToCheck);
@@ -148,16 +148,16 @@ public class PlayerController : MonoBehaviour
     // switch player with the tile to the left of it
     void switchLeft()
     {
-        GameObject tileToSwitch = gm.tiles[matrixX + 1, matrixY];
+        GameObject tileToSwitch = gm.tiles[matrixX - 1, matrixY];
+        Vector2 tempPos = tileToSwitch.transform.position;
         int xToCheck = matrixX;
         int yToCheck = matrixY;
 
-        tileToSwitch.transform.localPosition = new Vector2(xPos, yPos);
+        tileToSwitch.transform.localPosition = this.transform.position;
         gm.tiles[matrixX, matrixY] = tileToSwitch;
 
-        matrixX += 1;
-        xPos = gm.getWidth() - matrixX - gm.xOffset;
-        this.transform.localPosition = new Vector2(xPos, yPos);
+        matrixX -= 1;
+        this.transform.localPosition = tempPos;
         gm.tiles[matrixX, matrixY] = this.gameObject;
 
         GameManager.Instance.switchMatchCheck(xToCheck, yToCheck);

@@ -5,9 +5,13 @@ using UnityEngine;
 public class SpeciesTracker : MonoBehaviour
 {
     public int[] numOfEachSpeciesOverWholeGame;
+
+    public static int mostSpecies;
+
     // Start is called before the first frame update
     void Start()
     {
+        mostSpecies = 0;
         // instantiate the species matched the most in the game
         numOfEachSpeciesOverWholeGame = new int[25];
         for (int i = 0; i < 25; i++)
@@ -17,12 +21,14 @@ public class SpeciesTracker : MonoBehaviour
 
     }
 
+
     public void updateSpecies(int pos)
     {
         numOfEachSpeciesOverWholeGame[pos]++;
+        MostSpecies();
     }
 
-    public int MostSpecies()
+    public void MostSpecies()
     {
         int maxSpecies = numOfEachSpeciesOverWholeGame[0];
         int maxPos = 0;
@@ -36,7 +42,7 @@ public class SpeciesTracker : MonoBehaviour
             }
 
         }
-        return maxPos;
+        mostSpecies= maxPos;
     }
 
 

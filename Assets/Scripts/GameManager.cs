@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
 
     // score information
     public int scoreNum = 0;
-    public Text scoreStr;
 
     // grid recheck variables
     bool recheckingGrid = false;
@@ -292,7 +291,7 @@ public class GameManager : MonoBehaviour
         // start from the bottom left hand corner of the grid 
         for (int i = gm.getHeight() - 1; i >= 0; i--)
         {
-            for (int j = gm.getWidth() - 1; j >= 0; j--)
+            for (int j = 0; j < gm.getWidth(); j++)
             {
                 // if the tile is empty, we have to replace it
                 if (gm.tiles[j, i] == null)
@@ -309,8 +308,8 @@ public class GameManager : MonoBehaviour
                     // if a tile is found above, make it fall down
                     if (newY >= 0)
                     {
-                        Vector2 startPos = new Vector2(gm.getWidth() - j - gm.xOffset, gm.getHeight() - newY - gm.yOffset);
-                        Vector2 endPos = new Vector2(gm.getWidth() - j - gm.xOffset, gm.getHeight() - i - gm.yOffset);
+                        Vector2 startPos = gm.gridHolder[j,newY].transform.position;
+                        Vector2 endPos = gm.gridHolder[j, i].transform.position; 
                         StartCoroutine(lerp(startPos, endPos,gm.tiles[j,newY]));
                         gm.tiles[j, i] = gm.tiles[j, newY];
                         gm.tiles[j, newY] = null;
@@ -326,15 +325,15 @@ public class GameManager : MonoBehaviour
                         // if at the top row, tile does not fall
                         if (i == 0)
                         {
-                            gm.setNewTile(j, 0);
+                            gm.setNewTile(gm.gridHolder[j, 0].transform.position.x, gm.gridHolder[j, 0].transform.position.y,j,0);
                         }
                         // generate a new tile and make it fall down
                         else
                         {
-                            gm.setNewTile(j, 0);
+                            gm.setNewTile(gm.gridHolder[j, 0].transform.position.x, gm.gridHolder[j, 0].transform.position.y, j, 0);
                             newY = 0;
-                            Vector2 startPos = new Vector2(gm.getWidth() - j - gm.xOffset, gm.getHeight() - newY - gm.yOffset);
-                            Vector2 endPos = new Vector2(gm.getWidth() - j - gm.xOffset, gm.getHeight() - i - gm.yOffset);
+                            Vector2 startPos = gm.gridHolder[j, newY].transform.position;
+                            Vector2 endPos = gm.gridHolder[j, i].transform.position;
                             StartCoroutine(lerp(startPos, endPos, gm.tiles[j, newY]));
                             gm.tiles[j, i] = gm.tiles[j, newY];
                             gm.tiles[j, newY] = null;
@@ -385,6 +384,7 @@ public class GameManager : MonoBehaviour
         // check new tile with the switched tile for a match
         List<int> matchColor = new List<int>();
         GameObject newTile = gm.tiles[x, y];
+
         if (newTile.tag == "player")
         {
             return "break";
@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviour
 
 
                 pos = gm.tiles[row, col].transform.position;
-                Destroy(gm.tiles[row,col]);
+                Destroy(gm.tiles[row, col]);
                 gm.tiles[row, col] = null;
 
                 // emit particles
@@ -487,6 +487,7 @@ public class GameManager : MonoBehaviour
         Destroy(gm.tiles[x, y]);
         gm.tiles[x, y] = null;
 
+
         // emit particles
         (Instantiate(particles)).transform.position = pos;
 
@@ -520,7 +521,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        scoreStr.text = scoreNum.ToString();
         // make progress controller move up
         progressController.AdjustProgress(scoreNum);
 

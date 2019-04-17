@@ -15,7 +15,7 @@ public class ProgressController : MonoBehaviour
 
     public void Update()
     {
-        if (score != 0 && (this.transform.position.y+moveAmt) < 2.55)
+        if (score != 0 && (this.transform.position.y+moveAmt) < 3.11)
         {
             this.transform.position += new Vector3(0, moveAmt, 0);
             currentY = this.transform.position.y;
