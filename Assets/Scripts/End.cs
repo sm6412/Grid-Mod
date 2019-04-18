@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class End : MonoBehaviour
 {
-    // ref to the progress controller location
-    double progressControllerPos;
-
     // final grade text
     public Text grade;
     // response to grade text
@@ -59,15 +56,15 @@ public class End : MonoBehaviour
     // most matched species fun fact text
     public Text funfactText;
 
-
+    CurrentGradeTracker finalGrade;
 
     private void Start()
     {
-        // get the progress controller location
-        progressControllerPos = ProgressController.currentY;
+
+        finalGrade = GameObject.Find("Current Grade").GetComponent<CurrentGradeTracker>();
 
         // figure out final grade
-        FindScore(progressControllerPos);
+        FindScore(finalGrade.currentGrade);
 
         // get the species with the higest matches
         DisplaySpecies(SpeciesTracker.mostSpecies);
@@ -85,27 +82,27 @@ public class End : MonoBehaviour
     }
 
     // determine final grade
-    void FindScore(double pos)
+    void FindScore(string finalGrade)
     {
-        if (pos>=-2.1 && pos<-1.19)
+        if (finalGrade == "B")
         {
             grade.text = "B";
             response.text = "Keep at it!";
 
         }
-        else if (pos>=-1.19 && pos<0.4)
+        else if (finalGrade == "B+")
         {
             grade.text = "B+";
             response.text = "Good!";
 
         }
-        else if (pos>=0.4 && pos<1.87)
+        else if (finalGrade == "A")
         {
             grade.text = "A";
             response.text = "Amazing!";
 
         }
-        else if (pos>=1.87 && pos<3.11)
+        else if (finalGrade == "A+")
         {
             grade.text = "A+";
             response.text = "You knocked my socks off!";

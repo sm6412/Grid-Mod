@@ -7,7 +7,7 @@ public class DontDestroy : MonoBehaviour
     // this script does not destroy the music
     void Awake()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("music");
+        GameObject[] objs = GameObject.FindGameObjectsWithTag(this.tag);
 
         if (objs.Length > 1)
         {

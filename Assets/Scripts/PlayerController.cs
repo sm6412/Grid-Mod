@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
     // bool to determine whether the player can move or not
     public bool canMove = true;
 
+    // ref to current grade tracker 
+    CurrentGradeTracker gradeTracker;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,7 @@ public class PlayerController : MonoBehaviour
         // ref to grid maker 
         gm = GameObject.Find("Grid Maker").GetComponent<GridMaker>();
         pc = GameObject.Find("Progress Arrow").GetComponent<ProgressController>();
+        gradeTracker = GameObject.Find("Current Grade").GetComponent<CurrentGradeTracker>();
 
         // initialize player position
         this.transform.position = gm.tiles[2,2].transform.position;
@@ -183,6 +187,7 @@ public class PlayerController : MonoBehaviour
             string hexString = "#56FF00";
             ColorUtility.TryParseHtmlString(hexString, out newColor);
             this.GetComponent<SpriteRenderer>().color = newColor;
+            gradeTracker.setCurrentGrade("B");
 
         }
         // B+ range
@@ -192,6 +197,7 @@ public class PlayerController : MonoBehaviour
             string hexString = "#FFFF01";
             ColorUtility.TryParseHtmlString(hexString, out newColor);
             this.GetComponent<SpriteRenderer>().color = newColor;
+            gradeTracker.setCurrentGrade("B+");
 
         }
         // A range
@@ -201,6 +207,7 @@ public class PlayerController : MonoBehaviour
             string hexString = "#FFAA01";
             ColorUtility.TryParseHtmlString(hexString, out newColor);
             this.GetComponent<SpriteRenderer>().color = newColor;
+            gradeTracker.setCurrentGrade("A");
 
         }
         // A+ range
@@ -210,6 +217,7 @@ public class PlayerController : MonoBehaviour
             string hexString = "#FE0003";
             ColorUtility.TryParseHtmlString(hexString, out newColor);
             this.GetComponent<SpriteRenderer>().color = newColor;
+            gradeTracker.setCurrentGrade("A+");
         }
     }
 }
