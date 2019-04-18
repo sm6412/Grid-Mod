@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DontDestroy : MonoBehaviour
 {
-    // this script does not destroy the music
+    // this script does not destroy the target object
     void Awake()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag(this.tag);
