@@ -216,7 +216,7 @@ public class End : MonoBehaviour
         {
             speciesSR.sprite = sprite15;
             speciesNameText.text = "Platypus";
-            funfactText.text = "Males have sharp stingers on the heels of their rear feet and can use them to deliver a strong toxic blow to any foe." +
+            funfactText.text = "Males have sharp stingers on the heels of their rear feet and can use them to deliver a strong toxic blow to any foe. " +
                 "It is one of only two mammals that lay eggs.";
         }
 
