@@ -6,11 +6,15 @@ using UnityEngine.UI;
 
 public class End : MonoBehaviour
 {
+    // ref to the progress controller location
     double progressControllerPos;
 
+    // final grade text
     public Text grade;
+    // response to grade text
     public Text response;
 
+    // possible ending animal 
     [Header("Amphibian Sprites")]
     public Sprite sprite1;
     public Sprite sprite2;
@@ -46,19 +50,23 @@ public class End : MonoBehaviour
     public Sprite sprite24;
     public Sprite sprite25;
 
-
+    // sprite renderer of object that displays
+    // most matched animal
     public SpriteRenderer speciesSR;
 
+    // most matched species name text
     public Text speciesNameText;
+    // most matched species fun fact text
     public Text funfactText;
+
 
 
     private void Start()
     {
-
+        // get the progress controller location
         progressControllerPos = ProgressController.currentY;
 
-        // figure out score
+        // figure out final grade
         FindScore(progressControllerPos);
 
         // get the species with the higest matches
@@ -76,6 +84,7 @@ public class End : MonoBehaviour
         
     }
 
+    // determine final grade
     void FindScore(double pos)
     {
         if (pos>=-2.1 && pos<-1.19)
@@ -105,6 +114,7 @@ public class End : MonoBehaviour
 
     }
 
+    // display most matched species
     void DisplaySpecies(int type)
     {
         // AMPHIBIANS 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+    // animal sprites
     [Header("Amphibian Sprites")]
     public Sprite sprite1;
     public Sprite sprite2;
@@ -38,13 +39,13 @@ public class Tile : MonoBehaviour
     public Sprite sprite23;
     public Sprite sprite24;
     public Sprite sprite25;
-
-    // reptiles 
-
+    
+    // animal species
     public int type;
+    // animal group
     public int group;
 
-    // set tile color
+    // set tile animal group and species 
     public void SetSprite(int rand)
     {
         type = rand;

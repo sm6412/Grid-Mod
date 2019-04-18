@@ -182,7 +182,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You knocked my socks off!
+  m_Text: Keep at it!
 --- !u!222 &80780006
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -419,9 +419,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'A+
-
-'
+  m_Text: B
 --- !u!222 &360435971
 CanvasRenderer:
   m_ObjectHideFlags: 0

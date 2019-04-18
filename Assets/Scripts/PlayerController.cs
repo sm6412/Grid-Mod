@@ -9,9 +9,8 @@ public class PlayerController : MonoBehaviour
     // ref to gridmaker 
     private GridMaker gm;
 
-    // player x and y pos
-    float xPos;
-    float yPos;
+    // ref to the progress controller 
+    private ProgressController pc;
 
     // player matrix x and y position
     int matrixX;
@@ -19,17 +18,20 @@ public class PlayerController : MonoBehaviour
 
     // amount of moves player can make
     public int moveNum;
+
     // ref to text that displays moves 
     public TextMesh moves;
 
     // bool to determine whether the player can move or not
     public bool canMove = true;
 
+
     // Start is called before the first frame update
     void Start()
     {
         // ref to grid maker 
         gm = GameObject.Find("Grid Maker").GetComponent<GridMaker>();
+        pc = GameObject.Find("Progress Arrow").GetComponent<ProgressController>();
 
         // initialize player position
         this.transform.position = gm.tiles[2,2].transform.position;
@@ -44,38 +46,36 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if moves run out, end game
-        if (moveNum==0)
-        {
-            SceneManager.LoadScene("End");
-        }
-
+        checkPosition();
         // move player and determine switches
         if (canMove==true && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && ((matrixY+1)<gm.getHeight()))
         {
-
-            switchDown();
             moveNum--;
             moves.text = moveNum.ToString();
+            switchDown();
+
+
         }
         else if (canMove==true && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && ((matrixY - 1) >= 0))
         {
-
-            switchUp();
             moveNum--;
             moves.text = moveNum.ToString();
+            switchUp();
+
         }
         else if (canMove == true && (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && ((matrixX + 1) < gm.getWidth()))
         {
-            switchRight();
             moveNum--;
             moves.text = moveNum.ToString();
+            switchRight();
+
         }
         else if (canMove == true && (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && ((matrixX - 1) >= 0))
         {
-            switchLeft();
             moveNum--;
             moves.text = moveNum.ToString();
+            switchLeft();
+
         }
     }
 
@@ -170,5 +170,46 @@ public class PlayerController : MonoBehaviour
     public void switchCanMove(bool res)
     {
         canMove = res;
+    }
+
+    // change player color according to current grade
+    void checkPosition()
+    {
+        // B range
+        double pos = pc.transform.position.y;
+        if (pos >= -2.1 && pos < -1.19)
+        {
+            Color newColor;
+            string hexString = "#56FF00";
+            ColorUtility.TryParseHtmlString(hexString, out newColor);
+            this.GetComponent<SpriteRenderer>().color = newColor;
+
+        }
+        // B+ range
+        else if (pos >= -1.19 && pos < 0.4)
+        {
+            Color newColor;
+            string hexString = "#FFFF01";
+            ColorUtility.TryParseHtmlString(hexString, out newColor);
+            this.GetComponent<SpriteRenderer>().color = newColor;
+
+        }
+        // A range
+        else if (pos >= 0.4 && pos < 1.87)
+        {
+            Color newColor;
+            string hexString = "#FFAA01";
+            ColorUtility.TryParseHtmlString(hexString, out newColor);
+            this.GetComponent<SpriteRenderer>().color = newColor;
+
+        }
+        // A+ range
+        else if (pos >= 1.87 && pos < 3.11)
+        {
+            Color newColor;
+            string hexString = "#FE0003";
+            ColorUtility.TryParseHtmlString(hexString, out newColor);
+            this.GetComponent<SpriteRenderer>().color = newColor;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -44,12 +45,15 @@ public class GameManager : MonoBehaviour
 
     bool isLerping = false;
 
+    // holds the number of each species in a match
     int[] numOfEachSpecies;
+
+    // ref to audio source
+    private AudioSource audioSource;
+
+    // sound effects for when the players makes a match
+    public AudioClip successSound;
     
-
-
-
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -57,9 +61,12 @@ public class GameManager : MonoBehaviour
         Instance = this;
         Instantiate(Player);
 
+        // ref other scripts
         gm = GameObject.Find("Grid Maker").GetComponent<GridMaker>();
         progressController = GameObject.Find("Progress Arrow").GetComponent<ProgressController>();
         st = GameObject.Find("Species Tracker").GetComponent<SpeciesTracker>();
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     // function checks to find and eliminate matches in the starting grid
@@ -77,12 +84,12 @@ public class GameManager : MonoBehaviour
                     currentGroup = currentTileScript.group;
                     int randomVal = Random.Range(0, 6);
                     
-                    // make sure tile gets a new color
+                    // make sure tile gets a new animal group
                     while(randomVal == currentGroup)
                     {
                         randomVal = Random.Range(0, 6);
                     }
-                    // change tile color
+                    // change tile group
                     currentTileScript.SetSprite(randomVal);
 
                     // restart search
@@ -259,6 +266,7 @@ public class GameManager : MonoBehaviour
 
         if (matchPosY.Count>=2 || matchPosX.Count>=2)
         {
+            audioSource.PlayOneShot(successSound);
           // if the grid recheck is still occuring and a match
           // is found, change found matches to true
             if (recheckingGrid == true)
@@ -273,6 +281,12 @@ public class GameManager : MonoBehaviour
             // destroy tiles 
             RemoveMatches(x,y);
 
+            // if out of moves, end game 
+            if (GameObject.Find("Player(Clone)").GetComponent<PlayerController>().moveNum == 0)
+            {
+                SceneManager.LoadScene("End");
+            }
+
             // repopulate grid
             Repopulate(x,y);
 
@@ -282,6 +296,12 @@ public class GameManager : MonoBehaviour
                 recheckingGrid = true;
                 checkRepopulatedGrid();
             }
+        }
+        
+        // if out of moves, end game
+        if (GameObject.Find("Player(Clone)").GetComponent<PlayerController>().moveNum == 0)
+        {
+            SceneManager.LoadScene("End");
         }
     }
 
@@ -378,7 +398,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    // checks for when a match occurs
     string checkMatch(int x, int y, string axis)
     {
         // check new tile with the switched tile for a match
@@ -434,7 +454,7 @@ public class GameManager : MonoBehaviour
                 int row = currentTile[0];
                 int col = currentTile[1];
                 
-                // determine whether the same species or not
+                // increment species in match chain
                 GameObject newTile = gm.tiles[row, col];
                 Tile tileScript = newTile.GetComponent<Tile>();
                 int species = tileScript.type;
@@ -462,14 +482,12 @@ public class GameManager : MonoBehaviour
                 int row = currentTile[0];
                 int col = currentTile[1];
 
-                 // determine whether the same species or not
+                 // increment species in match chain
                 GameObject newTile = gm.tiles[row, col];
                 Tile tileScript = newTile.GetComponent<Tile>();
                 int species = tileScript.type;
                 numOfEachSpecies[species]++;
                 st.updateSpecies(species);
-
-
 
                 pos = gm.tiles[row, col].transform.position;
                 Destroy(gm.tiles[row, col]);
@@ -487,16 +505,18 @@ public class GameManager : MonoBehaviour
         Destroy(gm.tiles[x, y]);
         gm.tiles[x, y] = null;
 
-
         // emit particles
         (Instantiate(particles)).transform.position = pos;
 
-        // increase score and check for duplicate species
+        // increment species in match chain
         numOfEachSpecies[currentSpecies]++;
         st.updateSpecies(currentSpecies);
+
+        // increase score
         IncrementScore();
     }
 
+    // reset the number of each species found in a match
     void resetNumOfEachSpecies()
     {
         numOfEachSpecies = new int[25];
@@ -506,11 +526,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // increment the player's score
     void IncrementScore()
     {
         for (int i = 0; i < 25; i++)
         {
             int currentNumOfSpecies = numOfEachSpecies[i];
+            // if two or more of the same species are found in the match, double the score 
+            // for those tiles 
             if (currentNumOfSpecies > 1)
             {
                 scoreNum += currentNumOfSpecies * 2;

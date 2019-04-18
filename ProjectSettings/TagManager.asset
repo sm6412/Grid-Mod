@@ -8,6 +8,7 @@ TagManager:
   - player
   - game manager
   - species tracker
+  - music
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: image layer
+    uniqueID: 3062147983
+    locked: 0
   - name: background
     uniqueID: 3604236171
     locked: 0

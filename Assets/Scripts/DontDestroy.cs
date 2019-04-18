@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class DontDestroy : MonoBehaviour
 {
+    // this script does not destroy the music
     void Awake()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("species tracker");
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("music");
 
         if (objs.Length > 1)
         {

@@ -18,6 +18,7 @@ public class GridMaker : MonoBehaviour
     // two dimensional array of objects
     private int[,] tileVals;
 
+    // gridholder contains x and y of each element 
     public GameObject[,] gridHolder;
 
     // holds tile sprite
@@ -29,12 +30,12 @@ public class GridMaker : MonoBehaviour
     void Start()
     {
 
-
         // instantiates the 2d array 
         tiles = new GameObject[width, height];
         tileVals = new int[width, height];
         gridHolder = new GameObject[width, height];
 
+        // fill grid with animals
         int counter = 0;
         for (int x = 0; x < height; x++)
         {
