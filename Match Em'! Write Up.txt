@@ -1,0 +1,25 @@
+Match Em'!
+By: Samira Mantri
+
+Instructions:
+
+Use the arrow keys to move up, down, left, and right. When you move in any direction your player will
+swap with the tile in that space. In order to improve your grade, you must make matches according to an
+animal's group. The five animal groups featured in my game are amphibians, mammals, reptiles, fish, and birds.
+In order for the match to count, it must be a match of 3 tiles or higher. If the match contains animals of
+the exact same species, those tiles will be worth double points. Once you run out of moves (indicated on
+the player piece) the game will end and you will recieve your grade.
+
+Evaluation of the Game’s Merit:
+
+My goal was to create an educational game that really forces you to think in many dimensions. Though the
+game can be initially difficult as you become familiar with the animal groups, you get better
+as you learn to recognize the subtle differences between two similar animals. I think with regards to the
+learning aspect of my game, it was successful. As for sound, I found that adding more sound effects in this 
+game had a negative effect on the experience. At first, I wanted to add a sound effect everytime the player 
+moved, but I found this to be annoying, especially when trying to concentrate. Therefore, I made sure to only 
+add a sound effect when the player made a match, which turned out to be satisfying. The one aspect of my game I think 
+it is lacking is more juice. I feel like I could have done more with the game if I had more time. Instead I 
+spent my time focusing on the art and gathering information on all the animals so there is a fun fact at the 
+end. Despite all this, I'm proud of my little animal game and I hope you enjoy it as much as I had fun making it!
+   
